@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR Mine Safety - Display</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loader">
+            <div class="spinner"></div>
+            <h2>Loading Mine Environment...</h2>
+            <p id="loading-status">Initializing...</p>
+        </div>
+    </div>
+
+    <!-- Main 3D Canvas -->
+    <div id="canvas-container"></div>
+
+    <!-- HUD Overlay -->
+    <div id="hud">
+        <!-- Top Left: Status Panel -->
+        <div id="status-panel">
+            <h3>MINE STATUS</h3>
+            <div class="status-item">
+                <span class="label">Depth:</span>
+                <span id="depth-value">-150m</span>
+            </div>
+            <div class="status-item">
+                <span class="label">O2 Level:</span>
+                <span id="oxygen-value">98%</span>
+                <div class="bar"><div id="oxygen-bar" class="fill" style="width: 98%"></div></div>
+            </div>
+            <div class="status-item">
+                <span class="label">CH4 Level:</span>
+                <span id="methane-value">0.2%</span>
+                <div class="bar"><div id="methane-bar" class="fill warning" style="width: 4%"></div></div>
+            </div>
+            <div class="status-item">
+                <span class="label">Temperature:</span>
+                <span id="temp-value">28°C</span>
+            </div>
+            <div class="status-item warnings">
+                <span class="label">Active Warnings:</span>
+                <span id="warnings-value" class="warning-count">0</span>
+            </div>
+        </div>
+
+        <!-- Top Right: Minimap -->
+        <div id="minimap-container">
+            <canvas id="minimap" width="220" height="220"></canvas>
+            <div id="minimap-label">MINIMAP</div>
+        </div>
+
+        <!-- Bottom Left: Connection Status -->
+        <div id="connection-panel">
+            <div class="connection-item">
+                <span class="label">Room Code:</span>
+                <span id="room-code" class="code">----</span>
+            </div>
+            <div class="connection-item">
+                <span class="label">Controller:</span>
+                <span id="controller-status" class="status disconnected">
+                    <span class="dot"></span>
+                    Disconnected
+                </span>
+            </div>
+        </div>
+
+        <!-- Bottom Right: Annotation List -->
+        <div id="annotation-panel">
+            <h3>ACTIVE ANNOTATIONS</h3>
+            <ul id="annotation-list">
+                <li class="empty">No annotations</li>
+            </ul>
+        </div>
+
+        <!-- Center: Warning Flash -->
+        <div id="warning-flash" class="hidden">
+            <span class="warning-icon">⚠️</span>
+            <span id="warning-text">WARNING</span>
+        </div>
+
+        <!-- Controls Help -->
+        <div id="controls-help">
+            <p>WASD/Arrow Keys: Move | Mouse: Look | Shift: Run | F: Flashlight</p>
+        </div>
+    </div>
+
+    <!-- Crosshair -->
+    <div id="crosshair">+</div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="display.js"></script>
+</body>
+</html>

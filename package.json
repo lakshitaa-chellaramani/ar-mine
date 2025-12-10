@@ -1,0 +1,24 @@
+{
+  "name": "ar-mine-project",
+  "version": "1.0.0",
+  "description": "AR Mine Safety Navigation System - Real-time 3D mine visualization with tablet controller",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node server/server.js"
+  },
+  "keywords": [
+    "ar",
+    "mine",
+    "safety",
+    "three.js",
+    "socket.io",
+    "navigation"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.7.2"
+  }
+}

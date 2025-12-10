@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>AR Mine - Controller</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Main Container -->
+    <div id="app">
+        <!-- Header -->
+        <header id="header">
+            <h1>AR Mine Controller</h1>
+            <div id="connection-status" class="disconnected">
+                <span class="dot"></span>
+                <span id="status-text">Disconnected</span>
+            </div>
+        </header>
+
+        <!-- Connection Panel -->
+        <section id="connection-panel">
+            <div class="panel-content">
+                <h2>Connect to Display</h2>
+                <div id="room-input-container">
+                    <input type="text" id="room-code-input" placeholder="Enter 4-digit code" maxlength="4" pattern="[0-9]*" inputmode="numeric">
+                    <button id="join-btn" class="primary-btn">JOIN</button>
+                </div>
+                <p id="connection-error" class="error hidden"></p>
+                <div id="connected-info" class="hidden">
+                    <p>Connected to room: <span id="connected-room"></span></p>
+                    <button id="disconnect-btn" class="secondary-btn">Disconnect</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Motion Control Panel -->
+        <section id="motion-panel" class="hidden">
+            <div class="panel-content">
+                <h2>Navigation Control</h2>
+
+                <!-- Control Mode Toggle -->
+                <div id="control-mode-toggle">
+                    <button id="mode-motion" class="mode-btn active">Motion</button>
+                    <button id="mode-touch" class="mode-btn">Touch</button>
+                </div>
+
+                <!-- Motion Control Mode -->
+                <div id="motion-control-mode">
+                    <div id="motion-visualizer">
+                        <div id="motion-indicator">
+                            <div id="tilt-dot"></div>
+                        </div>
+                        <div id="motion-labels">
+                            <span class="label top">Forward</span>
+                            <span class="label bottom">Back</span>
+                            <span class="label left">Left</span>
+                            <span class="label right">Right</span>
+                        </div>
+                    </div>
+                    <div id="speed-control">
+                        <label>Speed:</label>
+                        <div id="speed-bar">
+                            <div id="speed-fill"></div>
+                        </div>
+                        <span id="speed-value">0%</span>
+                    </div>
+                    <button id="calibrate-btn" class="secondary-btn">Calibrate</button>
+                    <p id="calibration-status"></p>
+                    <div id="motion-permission" class="hidden">
+                        <p>Motion sensors require permission</p>
+                        <button id="enable-motion-btn" class="primary-btn">Enable Motion</button>
+                    </div>
+                </div>
+
+                <!-- Touch Control Mode -->
+                <div id="touch-control-mode" class="hidden">
+                    <div id="joystick-container">
+                        <!-- Movement Joystick -->
+                        <div id="move-joystick" class="joystick">
+                            <div class="joystick-label">MOVE</div>
+                            <div class="joystick-base">
+                                <div class="joystick-stick" id="move-stick"></div>
+                            </div>
+                        </div>
+                        <!-- Look Joystick -->
+                        <div id="look-joystick" class="joystick">
+                            <div class="joystick-label">LOOK</div>
+                            <div class="joystick-base">
+                                <div class="joystick-stick" id="look-stick"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- D-Pad Alternative -->
+                    <div id="dpad-container">
+                        <div class="dpad-section">
+                            <p class="dpad-title">Movement</p>
+                            <div class="dpad">
+                                <button class="dpad-btn up" data-action="forward">
+                                    <span>▲</span>
+                                </button>
+                                <button class="dpad-btn left" data-action="left">
+                                    <span>◄</span>
+                                </button>
+                                <button class="dpad-btn center" data-action="stop">
+                                    <span>●</span>
+                                </button>
+                                <button class="dpad-btn right" data-action="right">
+                                    <span>►</span>
+                                </button>
+                                <button class="dpad-btn down" data-action="backward">
+                                    <span>▼</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="dpad-section">
+                            <p class="dpad-title">Camera</p>
+                            <div class="dpad">
+                                <button class="dpad-btn up" data-action="look-up">
+                                    <span>▲</span>
+                                </button>
+                                <button class="dpad-btn left" data-action="look-left">
+                                    <span>◄</span>
+                                </button>
+                                <button class="dpad-btn center" data-action="look-reset">
+                                    <span>●</span>
+                                </button>
+                                <button class="dpad-btn right" data-action="look-right">
+                                    <span>►</span>
+                                </button>
+                                <button class="dpad-btn down" data-action="look-down">
+                                    <span>▼</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Speed Slider for Touch Mode -->
+                    <div id="touch-speed-control">
+                        <label>Movement Speed:</label>
+                        <input type="range" id="touch-speed-slider" min="1" max="100" value="50">
+                        <span id="touch-speed-value">50%</span>
+                    </div>
+
+                    <!-- Run and Flashlight Buttons -->
+                    <div id="control-buttons">
+                        <button id="run-btn" class="secondary-btn">
+                            <span class="icon">🏃</span>
+                            Hold to Run
+                        </button>
+                        <button id="flashlight-btn" class="secondary-btn flashlight-on">
+                            <span class="icon">🔦</span>
+                            Flashlight
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Action Buttons Panel -->
+        <section id="actions-panel" class="hidden">
+            <div class="panel-content">
+                <h2>Safety Annotations</h2>
+                <div id="action-grid">
+                    <button id="danger-btn" class="action-btn danger">
+                        <span class="icon">🚨</span>
+                        <span class="label">Danger Zone</span>
+                    </button>
+                    <button id="arrow-btn" class="action-btn arrow">
+                        <span class="icon">➡️</span>
+                        <span class="label">Add Arrow</span>
+                    </button>
+                    <button id="incident-btn" class="action-btn incident">
+                        <span class="icon">⚠️</span>
+                        <span class="label">Incident</span>
+                    </button>
+                    <button id="restricted-btn" class="action-btn restricted">
+                        <span class="icon">🚫</span>
+                        <span class="label">Restricted</span>
+                    </button>
+                </div>
+                <button id="clear-btn" class="secondary-btn clear">
+                    <span class="icon">🗑️</span>
+                    Clear All Annotations
+                </button>
+            </div>
+        </section>
+
+        <!-- Placement Mode Overlay -->
+        <div id="placement-mode" class="hidden">
+            <div class="overlay-content">
+                <h3 id="placement-title">Placement Mode</h3>
+                <p id="placement-instructions">Tap to place marker</p>
+                <div id="placement-preview"></div>
+                <button id="cancel-placement" class="secondary-btn">Cancel</button>
+            </div>
+        </div>
+
+        <!-- Danger Zone Modal -->
+        <div id="danger-modal" class="modal hidden">
+            <div class="modal-content">
+                <h3>Add Danger Zone</h3>
+                <div class="form-group">
+                    <label for="danger-label">Label:</label>
+                    <input type="text" id="danger-label" placeholder="e.g., Gas Leak" value="Danger Zone">
+                </div>
+                <div class="form-group">
+                    <label for="danger-radius">Radius: <span id="radius-value">5</span>m</label>
+                    <input type="range" id="danger-radius" min="1" max="20" value="5">
+                </div>
+                <div class="modal-buttons">
+                    <button id="danger-cancel" class="secondary-btn">Cancel</button>
+                    <button id="danger-confirm" class="primary-btn">Add Danger Zone</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Incident Modal -->
+        <div id="incident-modal" class="modal hidden">
+            <div class="modal-content">
+                <h3>Report Incident</h3>
+                <div class="form-group">
+                    <label for="incident-date">Date:</label>
+                    <input type="date" id="incident-date">
+                </div>
+                <div class="form-group">
+                    <label for="incident-description">Description:</label>
+                    <textarea id="incident-description" placeholder="Brief description of the incident"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Severity:</label>
+                    <div class="severity-buttons">
+                        <button class="severity-btn" data-severity="low">Low</button>
+                        <button class="severity-btn active" data-severity="medium">Medium</button>
+                        <button class="severity-btn" data-severity="high">High</button>
+                    </div>
+                </div>
+                <div class="modal-buttons">
+                    <button id="incident-cancel" class="secondary-btn">Cancel</button>
+                    <button id="incident-confirm" class="primary-btn">Add Incident</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Arrow Modal -->
+        <div id="arrow-modal" class="modal hidden">
+            <div class="modal-content">
+                <h3>Add Directional Arrow</h3>
+                <div class="form-group">
+                    <label for="arrow-label">Label:</label>
+                    <input type="text" id="arrow-label" placeholder="e.g., Emergency Exit">
+                </div>
+                <p id="arrow-status">Arrow will point from current position forward</p>
+                <div class="form-group">
+                    <label for="arrow-distance">Distance: <span id="distance-value">10</span>m</label>
+                    <input type="range" id="arrow-distance" min="5" max="50" value="10">
+                </div>
+                <div class="modal-buttons">
+                    <button id="arrow-cancel" class="secondary-btn">Cancel</button>
+                    <button id="arrow-confirm" class="primary-btn">Add Arrow</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Restricted Zone Modal -->
+        <div id="restricted-modal" class="modal hidden">
+            <div class="modal-content">
+                <h3>Create Restricted Zone</h3>
+                <p>Draw a polygon by tapping multiple points.</p>
+                <div id="restricted-preview">
+                    <canvas id="restricted-canvas" width="200" height="200"></canvas>
+                </div>
+                <p id="vertex-count">Points: 0 (minimum 3)</p>
+                <div class="modal-buttons">
+                    <button id="restricted-clear" class="secondary-btn">Clear Points</button>
+                    <button id="restricted-undo" class="secondary-btn">Undo</button>
+                </div>
+                <div class="modal-buttons">
+                    <button id="restricted-cancel" class="secondary-btn">Cancel</button>
+                    <button id="restricted-confirm" class="primary-btn" disabled>Create Zone</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirm Clear Modal -->
+        <div id="clear-modal" class="modal hidden">
+            <div class="modal-content">
+                <h3>Clear All Annotations</h3>
+                <p>Are you sure you want to remove all annotations? This cannot be undone.</p>
+                <div class="modal-buttons">
+                    <button id="clear-cancel" class="secondary-btn">Cancel</button>
+                    <button id="clear-confirm" class="primary-btn danger-btn">Clear All</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Notifications -->
+        <div id="toast-container"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="controller.js"></script>
+</body>
+</html>
