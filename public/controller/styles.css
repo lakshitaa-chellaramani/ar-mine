@@ -6,25 +6,51 @@
 }
 
 :root {
-    --primary: #667eea;
-    --primary-dark: #5a6fd6;
-    --danger: #ff4444;
-    --danger-dark: #cc3333;
-    --warning: #ff8800;
-    --success: #00ff88;
-    --cyan: #00ffff;
-    --purple: #ff00ff;
-    --bg-dark: #1a1a2e;
-    --bg-darker: #0f0f1a;
-    --text: #ffffff;
-    --text-muted: #888888;
-    --border: rgba(255, 255, 255, 0.1);
+    /* Professional Pastel Theme - Orange Based (from PPE-detector) */
+    --background: #fdfcfb;
+    --background-light: #f8f7f6;
+    --background-card: #ffffff;
+    --foreground: #3a3a3a;
+    --foreground-muted: #9ca3af;
+
+    /* Primary - Warm Orange */
+    --primary: #fb923c;
+    --primary-light: #fdba74;
+    --primary-dark: #f97316;
+
+    /* Accent - Soft Amber */
+    --accent: #fbbf24;
+    --accent-light: #fcd34d;
+
+    /* Secondary - Warm Beige */
+    --secondary: #f5f2f0;
+    --secondary-dark: #e8e3e0;
+
+    /* Borders - Subtle */
+    --border: #ece9e6;
+    --border-dark: #dbd6d1;
+
+    /* Success - Fresh Mint */
+    --success: #6ee7b7;
+    --success-light: #a7f3d0;
+
+    /* Warning - Bright Amber */
+    --warning: #fbbf24;
+    --warning-light: #fde68a;
+
+    /* Error - Warm Coral */
+    --error: #fb7185;
+    --error-light: #fda4af;
+
+    /* Info - Soft Sky */
+    --info: #7dd3fc;
+    --info-light: #bae6fd;
 }
 
 body {
-    font-family: 'Segoe UI', 'Roboto', -apple-system, sans-serif;
-    background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-darker) 100%);
-    color: var(--text);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--background);
+    color: var(--foreground);
     min-height: 100vh;
     overflow-x: hidden;
 }
@@ -41,15 +67,18 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 15px;
+    padding: 15px 20px;
+    background: var(--background-card);
+    border-radius: 12px;
     margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid var(--border);
 }
 
 #header h1 {
     font-size: 1.2em;
-    color: var(--cyan);
+    color: var(--primary-dark);
+    font-weight: 600;
 }
 
 #connection-status {
@@ -57,13 +86,14 @@ body {
     align-items: center;
     gap: 8px;
     font-size: 0.9em;
+    color: var(--foreground-muted);
 }
 
 #connection-status .dot {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: var(--danger);
+    background: var(--error);
     animation: pulse 2s infinite;
 }
 
@@ -78,10 +108,12 @@ body {
 
 /* Panels */
 section {
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 15px;
+    background: var(--background-card);
+    border-radius: 12px;
     margin-bottom: 15px;
     overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid var(--border);
 }
 
 .panel-content {
@@ -89,11 +121,12 @@ section {
 }
 
 .panel-content h2 {
-    font-size: 1em;
-    color: var(--cyan);
+    font-size: 0.85em;
+    color: var(--primary-dark);
     margin-bottom: 15px;
     text-transform: uppercase;
     letter-spacing: 1px;
+    font-weight: 600;
 }
 
 /* Connection Panel */
@@ -108,21 +141,23 @@ section {
     font-size: 1.5em;
     text-align: center;
     letter-spacing: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 2px solid var(--border);
-    border-radius: 10px;
-    color: var(--text);
+    background: var(--background-card);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    color: var(--foreground);
     outline: none;
-    transition: border-color 0.3s;
+    transition: all 0.25s ease;
 }
 
 #room-code-input:focus {
-    border-color: var(--cyan);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(251, 146, 60, 0.15);
 }
 
 #room-code-input::placeholder {
     letter-spacing: normal;
     font-size: 0.5em;
+    color: var(--foreground-muted);
 }
 
 /* Buttons */
@@ -131,36 +166,57 @@ button {
     border: none;
     outline: none;
     font-family: inherit;
-    transition: all 0.3s ease;
+    transition: all 0.25s ease;
 }
 
 .primary-btn {
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     color: white;
     padding: 15px 25px;
-    border-radius: 10px;
+    border-radius: 12px;
     font-size: 1em;
-    font-weight: bold;
+    font-weight: 600;
+    box-shadow: 0 2px 12px rgba(251, 146, 60, 0.3);
+}
+
+.primary-btn:hover {
+    background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(251, 146, 60, 0.4);
 }
 
 .primary-btn:active {
-    transform: scale(0.95);
+    transform: scale(0.98);
 }
 
 .secondary-btn {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
+    background: var(--secondary);
+    color: var(--foreground);
     padding: 12px 20px;
-    border-radius: 10px;
+    border-radius: 12px;
     font-size: 0.9em;
+    font-weight: 500;
+    border: 1.5px solid var(--border);
+}
+
+.secondary-btn:hover {
+    background: var(--secondary-dark);
+    border-color: var(--border-dark);
+    transform: translateY(-1px);
 }
 
 .secondary-btn:active {
-    background: rgba(255, 255, 255, 0.2);
+    transform: scale(0.98);
 }
 
 .danger-btn {
-    background: linear-gradient(135deg, var(--danger) 0%, var(--danger-dark) 100%);
+    background: linear-gradient(135deg, var(--error) 0%, #ef4444 100%);
+    color: white;
+    box-shadow: 0 2px 12px rgba(251, 113, 133, 0.3);
+}
+
+.danger-btn:hover {
+    background: linear-gradient(135deg, var(--error-light) 0%, var(--error) 100%);
 }
 
 /* Connected Info */
@@ -172,17 +228,19 @@ button {
 #connected-info p {
     margin-bottom: 10px;
     color: var(--success);
+    font-weight: 500;
 }
 
 #connected-room {
     font-family: monospace;
     font-size: 1.3em;
     letter-spacing: 3px;
+    color: var(--primary-dark);
 }
 
 /* Error Message */
 .error {
-    color: var(--danger);
+    color: var(--error);
     text-align: center;
     margin-top: 10px;
     font-size: 0.9em;
@@ -203,8 +261,8 @@ button {
 #motion-indicator {
     width: 100%;
     height: 100%;
-    background: rgba(0, 255, 255, 0.1);
-    border: 2px solid rgba(0, 255, 255, 0.3);
+    background: rgba(251, 146, 60, 0.1);
+    border: 2px solid rgba(251, 146, 60, 0.3);
     border-radius: 50%;
     position: relative;
 }
@@ -212,13 +270,13 @@ button {
 #tilt-dot {
     width: 30px;
     height: 30px;
-    background: var(--cyan);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     border-radius: 50%;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    box-shadow: 0 0 20px var(--cyan);
+    box-shadow: 0 0 20px rgba(251, 146, 60, 0.5);
     transition: all 0.1s ease;
 }
 
@@ -234,7 +292,8 @@ button {
 #motion-labels .label {
     position: absolute;
     font-size: 0.8em;
-    color: var(--text-muted);
+    color: var(--foreground-muted);
+    font-weight: 500;
 }
 
 #motion-labels .top { top: -25px; left: 50%; transform: translateX(-50%); }
@@ -251,20 +310,21 @@ button {
 }
 
 #speed-control label {
-    color: var(--text-muted);
+    color: var(--foreground-muted);
+    font-weight: 500;
 }
 
 #speed-bar {
     flex: 1;
     height: 10px;
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--secondary);
     border-radius: 5px;
     overflow: hidden;
 }
 
 #speed-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--cyan), var(--success));
+    background: linear-gradient(90deg, var(--primary), var(--success));
     width: 0%;
     transition: width 0.1s;
 }
@@ -272,6 +332,8 @@ button {
 #speed-value {
     min-width: 40px;
     text-align: right;
+    font-weight: 600;
+    color: var(--primary-dark);
 }
 
 #calibrate-btn {
@@ -282,19 +344,21 @@ button {
 #calibration-status {
     text-align: center;
     font-size: 0.9em;
-    color: var(--text-muted);
+    color: var(--foreground-muted);
 }
 
 #motion-permission {
     text-align: center;
     padding: 20px;
-    background: rgba(255, 136, 0, 0.2);
-    border-radius: 10px;
+    background: var(--warning-light);
+    border-radius: 12px;
     margin-top: 15px;
+    border: 1px solid var(--warning);
 }
 
 #motion-permission p {
     margin-bottom: 10px;
+    color: #8b6914;
 }
 
 /* Control Mode Toggle */
@@ -307,21 +371,28 @@ button {
 .mode-btn {
     flex: 1;
     padding: 12px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    color: var(--text-muted);
+    background: var(--secondary);
+    border-radius: 12px;
+    color: var(--foreground-muted);
     font-size: 1em;
-    font-weight: bold;
-    transition: all 0.3s ease;
+    font-weight: 600;
+    transition: all 0.25s ease;
+    border: 1.5px solid var(--border);
 }
 
 .mode-btn.active {
-    background: linear-gradient(135deg, var(--cyan) 0%, var(--success) 100%);
-    color: #000;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: 0 2px 12px rgba(251, 146, 60, 0.3);
+}
+
+.mode-btn:not(.active):hover {
+    background: var(--secondary-dark);
 }
 
 .mode-btn:not(.active):active {
-    background: rgba(255, 255, 255, 0.2);
+    transform: scale(0.98);
 }
 
 /* Touch Control Mode */
@@ -347,16 +418,17 @@ button {
 
 .joystick-label {
     font-size: 0.8em;
-    color: var(--text-muted);
+    color: var(--foreground-muted);
     margin-bottom: 10px;
     letter-spacing: 2px;
+    font-weight: 600;
 }
 
 .joystick-base {
     width: 120px;
     height: 120px;
-    background: rgba(0, 255, 255, 0.1);
-    border: 2px solid rgba(0, 255, 255, 0.3);
+    background: rgba(251, 146, 60, 0.1);
+    border: 2px solid rgba(251, 146, 60, 0.3);
     border-radius: 50%;
     position: relative;
     touch-action: none;
@@ -365,18 +437,18 @@ button {
 .joystick-stick {
     width: 50px;
     height: 50px;
-    background: linear-gradient(135deg, var(--cyan) 0%, var(--success) 100%);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     border-radius: 50%;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+    box-shadow: 0 0 20px rgba(251, 146, 60, 0.4);
     transition: box-shadow 0.2s;
 }
 
 .joystick-stick.active {
-    box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+    box-shadow: 0 0 30px rgba(251, 146, 60, 0.6);
 }
 
 /* D-Pad Container */
@@ -392,9 +464,10 @@ button {
 
 .dpad-title {
     font-size: 0.8em;
-    color: var(--text-muted);
+    color: var(--foreground-muted);
     margin-bottom: 10px;
     letter-spacing: 1px;
+    font-weight: 600;
 }
 
 .dpad {
@@ -405,10 +478,10 @@ button {
 }
 
 .dpad-btn {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    color: var(--text);
+    background: var(--secondary);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    color: var(--foreground);
     font-size: 1.2em;
     display: flex;
     align-items: center;
@@ -420,14 +493,15 @@ button {
 
 .dpad-btn:active,
 .dpad-btn.pressed {
-    background: linear-gradient(135deg, var(--cyan) 0%, var(--success) 100%);
-    color: #000;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
     transform: scale(0.95);
+    border-color: var(--primary);
 }
 
 .dpad-btn.up { grid-column: 2; grid-row: 1; }
 .dpad-btn.left { grid-column: 1; grid-row: 2; }
-.dpad-btn.center { grid-column: 2; grid-row: 2; background: rgba(255, 255, 255, 0.05); }
+.dpad-btn.center { grid-column: 2; grid-row: 2; background: var(--background-light); }
 .dpad-btn.right { grid-column: 3; grid-row: 2; }
 .dpad-btn.down { grid-column: 2; grid-row: 3; }
 
@@ -438,14 +512,16 @@ button {
     gap: 10px;
     margin-bottom: 15px;
     padding: 15px;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
+    background: var(--background-light);
+    border-radius: 12px;
+    border: 1px solid var(--border);
 }
 
 #touch-speed-control label {
-    color: var(--text-muted);
+    color: var(--foreground-muted);
     font-size: 0.9em;
     white-space: nowrap;
+    font-weight: 500;
 }
 
 #touch-speed-slider {
@@ -453,7 +529,7 @@ button {
     height: 8px;
     -webkit-appearance: none;
     appearance: none;
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--secondary);
     border-radius: 4px;
     outline: none;
 }
@@ -463,16 +539,16 @@ button {
     appearance: none;
     width: 24px;
     height: 24px;
-    background: linear-gradient(135deg, var(--cyan) 0%, var(--success) 100%);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     border-radius: 50%;
     cursor: pointer;
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    box-shadow: 0 0 10px rgba(251, 146, 60, 0.4);
 }
 
 #touch-speed-slider::-moz-range-thumb {
     width: 24px;
     height: 24px;
-    background: linear-gradient(135deg, var(--cyan) 0%, var(--success) 100%);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     border-radius: 50%;
     cursor: pointer;
     border: none;
@@ -481,8 +557,8 @@ button {
 #touch-speed-value {
     min-width: 40px;
     text-align: right;
-    color: var(--cyan);
-    font-weight: bold;
+    color: var(--primary-dark);
+    font-weight: 600;
 }
 
 /* Control Buttons Container */
@@ -495,18 +571,20 @@ button {
 #run-btn {
     flex: 1;
     padding: 15px;
-    background: linear-gradient(135deg, var(--warning) 0%, var(--danger) 100%);
+    background: linear-gradient(135deg, var(--warning) 0%, var(--primary-dark) 100%);
     color: white;
-    font-weight: bold;
+    font-weight: 600;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(251, 191, 36, 0.3);
 }
 
 #run-btn:active,
 #run-btn.active {
-    background: linear-gradient(135deg, var(--danger) 0%, #ff0000 100%);
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--error) 100%);
     transform: scale(0.98);
 }
 
@@ -518,18 +596,21 @@ button {
 #flashlight-btn {
     flex: 1;
     padding: 15px;
-    background: linear-gradient(135deg, #444 0%, #222 100%);
-    color: white;
-    font-weight: bold;
+    background: var(--secondary);
+    color: var(--foreground);
+    font-weight: 600;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
+    border-radius: 12px;
+    border: 1.5px solid var(--border);
 }
 
 #flashlight-btn.flashlight-on {
-    background: linear-gradient(135deg, #ffdd00 0%, #ffaa00 100%);
-    color: #000;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+    color: white;
+    border-color: var(--accent);
 }
 
 #flashlight-btn:active {
@@ -550,10 +631,11 @@ button {
 
 .action-btn {
     padding: 25px 15px;
-    border-radius: 15px;
+    border-radius: 12px;
     text-align: center;
-    background: rgba(255, 255, 255, 0.05);
-    border: 2px solid var(--border);
+    background: var(--background-card);
+    border: 1.5px solid var(--border);
+    transition: all 0.25s ease;
 }
 
 .action-btn .icon {
@@ -564,7 +646,13 @@ button {
 
 .action-btn .label {
     font-size: 0.9em;
-    color: var(--text-muted);
+    color: var(--foreground-muted);
+    font-weight: 500;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .action-btn:active {
@@ -572,39 +660,55 @@ button {
 }
 
 .action-btn.danger {
-    border-color: rgba(255, 68, 68, 0.5);
-    background: rgba(255, 68, 68, 0.1);
+    border-color: var(--error);
+    background: var(--error-light);
+}
+
+.action-btn.danger .label {
+    color: #6b2626;
 }
 
 .action-btn.danger:active {
-    background: rgba(255, 68, 68, 0.3);
+    background: var(--error);
 }
 
 .action-btn.arrow {
-    border-color: rgba(0, 255, 255, 0.5);
-    background: rgba(0, 255, 255, 0.1);
+    border-color: var(--info);
+    background: var(--info-light);
+}
+
+.action-btn.arrow .label {
+    color: #4a4779;
 }
 
 .action-btn.arrow:active {
-    background: rgba(0, 255, 255, 0.3);
+    background: var(--info);
 }
 
 .action-btn.incident {
-    border-color: rgba(255, 136, 0, 0.5);
-    background: rgba(255, 136, 0, 0.1);
+    border-color: var(--warning);
+    background: var(--warning-light);
+}
+
+.action-btn.incident .label {
+    color: #8b6914;
 }
 
 .action-btn.incident:active {
-    background: rgba(255, 136, 0, 0.3);
+    background: var(--warning);
 }
 
 .action-btn.restricted {
-    border-color: rgba(255, 0, 255, 0.5);
-    background: rgba(255, 0, 255, 0.1);
+    border-color: #c084fc;
+    background: #f3e8ff;
+}
+
+.action-btn.restricted .label {
+    color: #6b21a8;
 }
 
 .action-btn.restricted:active {
-    background: rgba(255, 0, 255, 0.3);
+    background: #e9d5ff;
 }
 
 #clear-btn {
@@ -622,7 +726,8 @@ button {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -631,18 +736,20 @@ button {
 }
 
 .modal-content {
-    background: var(--bg-dark);
+    background: var(--background-card);
     padding: 25px;
-    border-radius: 20px;
+    border-radius: 16px;
     width: 100%;
     max-width: 400px;
     border: 1px solid var(--border);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
 }
 
 .modal-content h3 {
-    color: var(--cyan);
+    color: var(--primary-dark);
     margin-bottom: 20px;
     text-align: center;
+    font-weight: 600;
 }
 
 .form-group {
@@ -651,27 +758,30 @@ button {
 
 .form-group label {
     display: block;
-    color: var(--text-muted);
+    color: var(--foreground-muted);
     margin-bottom: 8px;
     font-size: 0.9em;
+    font-weight: 500;
 }
 
 .form-group input[type="text"],
 .form-group input[type="date"],
 .form-group textarea {
     width: 100%;
-    padding: 12px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--text);
+    padding: 13px 18px;
+    background: var(--background-card);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    color: var(--foreground);
     font-size: 1em;
     outline: none;
+    transition: all 0.25s ease;
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
-    border-color: var(--cyan);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(251, 146, 60, 0.15);
 }
 
 .form-group textarea {
@@ -682,6 +792,22 @@ button {
 .form-group input[type="range"] {
     width: 100%;
     margin-top: 5px;
+    height: 8px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--secondary);
+    border-radius: 4px;
+    outline: none;
+}
+
+.form-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    border-radius: 50%;
+    cursor: pointer;
 }
 
 .severity-buttons {
@@ -692,24 +818,29 @@ button {
 .severity-btn {
     flex: 1;
     padding: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    color: var(--text-muted);
+    background: var(--secondary);
+    border-radius: 12px;
+    color: var(--foreground-muted);
+    font-weight: 500;
+    border: 1.5px solid var(--border);
 }
 
 .severity-btn[data-severity="low"].active {
-    background: rgba(255, 255, 0, 0.3);
-    color: #ffff00;
+    background: var(--success-light);
+    color: #2d5a3d;
+    border-color: var(--success);
 }
 
 .severity-btn[data-severity="medium"].active {
-    background: rgba(255, 136, 0, 0.3);
-    color: #ff8800;
+    background: var(--warning-light);
+    color: #8b6914;
+    border-color: var(--warning);
 }
 
 .severity-btn[data-severity="high"].active {
-    background: rgba(255, 0, 0, 0.3);
-    color: #ff4444;
+    background: var(--error-light);
+    color: #6b2626;
+    border-color: var(--error);
 }
 
 .modal-buttons {
@@ -730,14 +861,14 @@ button {
 }
 
 #restricted-canvas {
-    background: rgba(0, 0, 0, 0.3);
+    background: var(--background-light);
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: 12px;
 }
 
 #vertex-count {
     text-align: center;
-    color: var(--text-muted);
+    color: var(--foreground-muted);
     margin-bottom: 10px;
 }
 
@@ -748,7 +879,8 @@ button {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(4px);
     z-index: 2000;
     display: flex;
     justify-content: center;
@@ -761,12 +893,13 @@ button {
 }
 
 .overlay-content h3 {
-    color: var(--cyan);
+    color: var(--primary);
     margin-bottom: 10px;
+    font-weight: 600;
 }
 
 .overlay-content p {
-    color: var(--text-muted);
+    color: var(--foreground-muted);
     margin-bottom: 30px;
 }
 
@@ -774,7 +907,7 @@ button {
     width: 100px;
     height: 100px;
     margin: 20px auto;
-    border: 2px dashed var(--cyan);
+    border: 2px dashed var(--primary);
     border-radius: 50%;
     animation: placementPulse 1s infinite;
 }
@@ -794,13 +927,14 @@ button {
 }
 
 .toast {
-    background: rgba(0, 0, 0, 0.9);
-    color: white;
+    background: var(--background-card);
+    color: var(--foreground);
     padding: 15px 25px;
-    border-radius: 10px;
+    border-radius: 12px;
     margin-bottom: 10px;
     animation: slideUp 0.3s ease;
-    border-left: 4px solid var(--cyan);
+    border-left: 4px solid var(--primary);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
 
 .toast.success {
@@ -808,7 +942,7 @@ button {
 }
 
 .toast.error {
-    border-left-color: var(--danger);
+    border-left-color: var(--error);
 }
 
 @keyframes slideUp {
@@ -841,16 +975,21 @@ button {
     }
 }
 
-/* Dark scrollbar */
+/* Custom scrollbar */
 ::-webkit-scrollbar {
-    width: 6px;
+    width: 10px;
+    height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    background: transparent;
+    background: var(--background-light);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 3px;
+    background: var(--secondary-dark);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a29e;
 }
