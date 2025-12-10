@@ -18,6 +18,7 @@ const PORT = process.env.PORT || 3000;
 // Serve static files from public directory
 app.use('/display', express.static(path.join(__dirname, '../public/display')));
 app.use('/controller', express.static(path.join(__dirname, '../public/controller')));
+app.use('/converter', express.static(path.join(__dirname, '../public/converter')));
 
 // Routes
 app.get('/', (req, res) => {
@@ -77,6 +78,9 @@ app.get('/', (req, res) => {
                 .controller-link {
                     background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
                 }
+                .converter-link {
+                    background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+                }
             </style>
         </head>
         <body>
@@ -86,6 +90,7 @@ app.get('/', (req, res) => {
                 <div class="links">
                     <a href="/display" class="display-link">Laptop Display</a>
                     <a href="/controller" class="controller-link">Tablet Controller</a>
+                    <a href="/converter" class="converter-link">Blueprint Converter</a>
                 </div>
             </div>
         </body>
@@ -417,6 +422,7 @@ server.listen(PORT, () => {
 ║                                                           ║
 ║       Display:    http://localhost:${PORT}/display           ║
 ║       Controller: http://localhost:${PORT}/controller        ║
+║       Converter:  http://localhost:${PORT}/converter         ║
 ║                                                           ║
 ╚═══════════════════════════════════════════════════════════╝
     `);

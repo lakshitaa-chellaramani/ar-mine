@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR Mine Safety - Blueprint to 3D Converter</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Upload Panel -->
+    <div id="upload-panel" class="panel">
+        <div class="upload-container">
+            <h1>Blueprint to 3D Mine Converter</h1>
+            <p class="subtitle">Upload a 2D mine blueprint to generate a navigable 3D environment</p>
+
+            <div id="drop-zone">
+                <div class="drop-content">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="17 8 12 3 7 8"/>
+                        <line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                    <p>Drag & drop your blueprint image here</p>
+                    <span>or</span>
+                    <label class="file-btn">
+                        Browse Files
+                        <input type="file" id="file-input" accept="image/*" hidden>
+                    </label>
+                    <p class="hint">Supports: PNG, JPG, JPEG (max 10MB)</p>
+                </div>
+            </div>
+
+            <!-- Preview Section -->
+            <div id="preview-section" class="hidden">
+                <div class="preview-header">
+                    <h3>Blueprint Preview</h3>
+                    <button id="change-file" class="btn-secondary">Change File</button>
+                </div>
+                <div class="preview-grid">
+                    <div class="preview-box">
+                        <h4>Original</h4>
+                        <canvas id="original-canvas"></canvas>
+                    </div>
+                    <div class="preview-box">
+                        <h4>Detected Walls</h4>
+                        <canvas id="processed-canvas"></canvas>
+                    </div>
+                </div>
+
+                <!-- Settings -->
+                <div class="settings-panel">
+                    <h3>Processing Settings</h3>
+                    <div class="setting-group">
+                        <label>Wall Detection Threshold</label>
+                        <input type="range" id="threshold-slider" min="50" max="200" value="100">
+                        <span id="threshold-value">100</span>
+                    </div>
+                    <div class="setting-group">
+                        <label>Wall Height (meters)</label>
+                        <input type="range" id="height-slider" min="2" max="8" value="4" step="0.5">
+                        <span id="height-value">4m</span>
+                    </div>
+                    <div class="setting-group">
+                        <label>Scale Factor</label>
+                        <input type="range" id="scale-slider" min="0.5" max="3" value="1" step="0.1">
+                        <span id="scale-value">1x</span>
+                    </div>
+                    <div class="setting-group checkbox-group">
+                        <label>
+                            <input type="checkbox" id="add-lights" checked>
+                            Auto-generate lighting
+                        </label>
+                    </div>
+                    <div class="setting-group checkbox-group">
+                        <label>
+                            <input type="checkbox" id="add-dust" checked>
+                            Add dust particles
+                        </label>
+                    </div>
+                </div>
+
+                <button id="generate-btn" class="btn-primary">
+                    <span>Generate 3D Environment</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Processing Overlay -->
+    <div id="processing-overlay" class="hidden">
+        <div class="processing-content">
+            <div class="spinner"></div>
+            <h2>Processing Blueprint...</h2>
+            <p id="processing-status">Analyzing image...</p>
+            <div class="progress-bar">
+                <div id="progress-fill" class="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3D View Container -->
+    <div id="viewer-container" class="hidden">
+        <div id="canvas-container"></div>
+
+        <!-- HUD Overlay -->
+        <div id="hud">
+            <!-- Top Left: Blueprint Info -->
+            <div id="info-panel">
+                <h3>GENERATED MINE</h3>
+                <div class="info-item">
+                    <span class="label">Detected Rooms:</span>
+                    <span id="rooms-count">0</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Total Area:</span>
+                    <span id="total-area">0 m²</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Wall Segments:</span>
+                    <span id="wall-count">0</span>
+                </div>
+            </div>
+
+            <!-- Top Right: Minimap -->
+            <div id="minimap-container">
+                <canvas id="minimap" width="220" height="220"></canvas>
+                <div id="minimap-label">MINIMAP</div>
+            </div>
+
+            <!-- Bottom Left: Back Button -->
+            <div id="action-panel">
+                <button id="back-btn" class="btn-action">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"/>
+                    </svg>
+                    New Blueprint
+                </button>
+                <button id="fullscreen-btn" class="btn-action">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                    </svg>
+                    Fullscreen
+                </button>
+                <button id="export-btn" class="btn-action">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7 10 12 15 17 10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                    Export JSON
+                </button>
+            </div>
+
+            <!-- Controls Help -->
+            <div id="controls-help">
+                <p>WASD/Arrow Keys: Move | Mouse: Look | Shift: Run | F: Flashlight | Click to start</p>
+            </div>
+        </div>
+
+        <!-- Crosshair -->
+        <div id="crosshair">+</div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script async src="https://docs.opencv.org/4.x/opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
+    <script src="converter.js"></script>
+</body>
+</html>
